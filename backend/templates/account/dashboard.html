@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block page-title %}
+    Dashboard
+{% endblock page-title%}
+
+{% block body %} 
+<div class="container">
+    <div class="row text-center">
+        <h5>{{user}} Dashboard</h5>
+    </div>
+
+    <div class="row ">
+        
+        <div class="col justify-content-center text-center">
+            <h6><a href="{% url 'account:logout' %}">Logout</a></h6>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock body %}
