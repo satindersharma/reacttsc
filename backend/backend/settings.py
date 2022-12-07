@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'drf_yasg',
+    'rest_framework_simplejwt',
 ]
 
 AUTH_USER_MODEL = 'account.ModelAccountUser'
@@ -97,6 +98,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         
     ),
     # 'DEFAULT_FILTER_BACKENDS': [

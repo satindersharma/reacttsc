@@ -23,6 +23,7 @@ const Posts = () => {
           <h1>posts list</h1>
 
           {posts && posts.map((post) => <PostItem key={post.id}  post={post} />)}
+          
       </div>
     </div>
       

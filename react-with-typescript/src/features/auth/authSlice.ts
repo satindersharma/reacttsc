@@ -2,12 +2,6 @@ import {createSlice,PayloadAction, createAsyncThunk} from '@reduxjs/toolkit'
 import UserInterface from '../../interface/posts/UserInterface'
 import api  from '../../utils//api'
 
-
-
-
-
-
-
 interface AuthState {
     token:string | null,
     isAuthenticated:boolean | null,
@@ -15,7 +9,6 @@ interface AuthState {
     user:UserInterface | null
     users:UserInterface[] | null
 }
-
 
 const initialState:AuthState = {
     token:localStorage.getItem('token'),
@@ -34,8 +27,6 @@ export const fetchUsers:any = createAsyncThunk(
       return await response.data
     }
   )
-
-
 
 export const authSlice = createSlice({
 

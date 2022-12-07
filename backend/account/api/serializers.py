@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 from account.models import ModelAccountUser
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,7 +47,7 @@ class SerializerAPIAccountLogin(serializers.Serializer):
             self.user, self.context['request'],
             self.validated_data['password']
         )
-
+        
         return login_user
 
 

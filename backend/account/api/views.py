@@ -2,13 +2,15 @@ import logging
 
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
-from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 from rest_framework.views import APIView
 from django.contrib.auth import logout
 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from account.api.serializers import SerializerAPIAccountLogin, SerializerAPIAccountSignUp, SerializerAPIAccountLogout
 from account.models import ModelAccountUser
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -45,14 +47,14 @@ class ViewAPIAccountLogin(APIView):
         if serializer.is_valid():
             response = serializer.login()
             data = {
-                'code': 200,
+                'code': HTTP_200_OK,
                 'status': 'success',
-                'result': response
+                'result': response,
             }
             return Response(data, status=HTTP_200_OK)
         data = {
-            'code': 400,
-            'status': 'success',
+            'code': HTTP_400_BAD_REQUEST,
+            'status': 'error',
             'result': serializer.errors
         }
         return Response(data, status=HTTP_400_BAD_REQUEST)
@@ -92,14 +94,14 @@ class ViewAPIAccountSignUp(APIView):
         if serializer.is_valid():
             response = serializer.save()
             data = {
-                'code': 200,
+                'code': HTTP_200_OK,
                 'status': 'success',
                 'result': response
             }
             return Response(data, status=HTTP_200_OK)
 
         data = {
-            'code': 400,
+            'code': HTTP_400_BAD_REQUEST,
             'status': 'error',
             'result': serializer.errors
         }
@@ -143,5 +145,81 @@ class ViewAPIAccountLogout(APIView):
 
             return Response({}, status=HTTP_200_OK)
 
-
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+# ---------------------------------------------------------------
+# ViewAPIAccountTokenObtainPair
+# ---------------------------------------------------------------
+class ViewAPIAccountTokenObtainPair(TokenObtainPairView):
+
+    # ---------------------------------------------------------------------------
+    # post
+    # ---------------------------------------------------------------------------
+    def post(self, request, *args, **kwargs):
+
+        self.serializer_class = self.get_serializer_class()
+        serializer = self.serializer_class(
+            data=request.data,
+            context={'request': request}
+        )
+        try:
+            if serializer.is_valid():
+                response = serializer.validated_data
+                data = {
+                    'code': HTTP_200_OK,
+                    'status': 'success',
+                    'result': response
+                }
+                return Response(data, status=HTTP_200_OK)
+            data = {
+                'code': HTTP_400_BAD_REQUEST,
+                'status': 'error',
+                'result': serializer.errors
+            }
+            return Response(data, status=HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            data = {
+                'code': HTTP_401_UNAUTHORIZED,
+                'status': 'error',
+                'result': str(e)
+            }
+            return Response(data, status=HTTP_401_UNAUTHORIZED)
+
+
+# ---------------------------------------------------------------
+# ViewAPIAccountTokenRefresh
+# ---------------------------------------------------------------
+class ViewAPIAccountTokenRefresh(TokenRefreshView):
+
+    # ---------------------------------------------------------------------------
+    # post
+    # ---------------------------------------------------------------------------
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = self.get_serializer_class()
+        serializer = self.serializer_class(
+            data=request.data,
+            context={'request': request}
+        )
+        try:
+            if serializer.is_valid():
+                response = serializer.validated_data
+                data = {
+                    'code': HTTP_200_OK,
+                    'status': 'success',
+                    'result': response
+                }
+                return Response(data, status=HTTP_200_OK)
+            data = {
+                'code': HTTP_400_BAD_REQUEST,
+                'status': 'error',
+                'result': serializer.errors
+            }
+            return Response(data, status=HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            data = {
+                'code': HTTP_401_UNAUTHORIZED,
+                'status': 'error',
+                'result': str(e)
+            }
+            return Response(data, status=HTTP_401_UNAUTHORIZED)

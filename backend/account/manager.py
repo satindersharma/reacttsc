@@ -1,7 +1,8 @@
 import logging
 
 from django.contrib.auth.models import BaseUserManager
-
+from django.contrib.auth import login as auth_login
+from base.utils import get_tokens_for_user
 
 
 logger = logging.getLogger(__name__)
@@ -86,7 +87,7 @@ class ManagerAccountUser(BaseUserManager):
         user = self.register_user(
             user_data
         )
-        
+
         user.save()
         logger.debug(
             'Signup process completed :: %s', user
@@ -113,11 +114,13 @@ class ManagerAccountUser(BaseUserManager):
     # ---------------------------------------------------------------
     def login_user(self, user, request, password=None):
         from account.api.serializers import SerializerAPIAccountUser
-        
+
         # send verification code for ore
-        #send_verification_code(email=user.email)
+        # send_verification_code(email=user.email)
+        # auth_login(request, user)
 
         return {
             'user': SerializerAPIAccountUser(user).data,
-            'authenticated': request.user.is_authenticated
+            'authenticated': request.user.is_authenticated,
+            'token': get_tokens_for_user(user),
         }
