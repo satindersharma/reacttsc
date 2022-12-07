@@ -79,19 +79,8 @@ class ManagerAccountUser(BaseUserManager):
     def signup_process(self, user_data):
         """
         Signup process performing following steps:
-        - Creating ORE Id
         - Registering in database
-        - Creating algorand account
-        - Generating QR code of user
         """
-
-        # Add User in ORE ID
-        # accountName, processId = create_ore_id_user(
-        #     user_data
-        # )
-
-        # if not accountName:
-        #     return None
 
         # Create user account in database
         user = self.register_user(
@@ -123,12 +112,12 @@ class ManagerAccountUser(BaseUserManager):
     # login_user
     # ---------------------------------------------------------------
     def login_user(self, user, request, password=None):
-        from authentium.apps.account.api.serializers.user import SerializerAccountUser
+        from account.api.serializers import SerializerAPIAccountUser
         
         # send verification code for ore
         #send_verification_code(email=user.email)
 
         return {
-            'user': SerializerAccountUser(user).data,
+            'user': SerializerAPIAccountUser(user).data,
             'authenticated': request.user.is_authenticated
         }

@@ -25,6 +25,9 @@ urlpatterns = [
     path('',
         include(('account.urls', 'account'), namespace='account')
     ),
+    path('api/',
+        include(('backend.api_urls', 'api'), namespace='api'),
+    ),
 ]
 
 if settings.DEBUG:

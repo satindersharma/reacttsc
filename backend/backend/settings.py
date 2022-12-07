@@ -38,9 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',
     'base',
     'account',
+    'post',
     'rest_framework',
+    'corsheaders',
+    'drf_yasg',
 ]
 
 AUTH_USER_MODEL = 'account.ModelAccountUser'
@@ -86,6 +90,21 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        
+    ),
+    # 'DEFAULT_FILTER_BACKENDS': [
+    #     'django_filters.rest_framework.DjangoFilterBackend'
+    # ],
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 10,
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -119,6 +138,13 @@ USE_TZ = True
 
 LOGIN_URL = reverse_lazy("account:login")
 DEFAULT_LOGIN_REDIRECT_URL = reverse_lazy('account:dashboard')
+
+
+# GEOIP_PATH = BASE_DIR / 'geofiles'
+# GEOIP_CITY = BASE_DIR / 'GeoLite2-City.mmdb'
+# GEOIP_COUNTRY = BASE_DIR / 'GeoLite2-Country.mmdb'
+
+# GDAL_LIBRARY_PATH = 'D:/Downloads/gdalwin32exe160/gdalwin32-1.6/bin'
 
 
 # Static files (CSS, JavaScript, Images)
