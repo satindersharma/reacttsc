@@ -6,7 +6,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UN
 from rest_framework.views import APIView
 from django.contrib.auth import logout
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from account.api.serializers import SerializerAPIAccountLogin, SerializerAPIAccountSignUp, SerializerAPIAccountLogout
 from account.models import ModelAccountUser
 
@@ -191,6 +191,44 @@ class ViewAPIAccountTokenObtainPair(TokenObtainPairView):
 # ViewAPIAccountTokenRefresh
 # ---------------------------------------------------------------
 class ViewAPIAccountTokenRefresh(TokenRefreshView):
+
+    # ---------------------------------------------------------------------------
+    # post
+    # ---------------------------------------------------------------------------
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = self.get_serializer_class()
+        serializer = self.serializer_class(
+            data=request.data,
+            context={'request': request}
+        )
+        try:
+            if serializer.is_valid():
+                response = serializer.validated_data
+                data = {
+                    'code': HTTP_200_OK,
+                    'status': 'success',
+                    'result': response
+                }
+                return Response(data, status=HTTP_200_OK)
+            data = {
+                'code': HTTP_400_BAD_REQUEST,
+                'status': 'error',
+                'result': serializer.errors
+            }
+            return Response(data, status=HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            data = {
+                'code': HTTP_401_UNAUTHORIZED,
+                'status': 'error',
+                'result': str(e)
+            }
+            return Response(data, status=HTTP_401_UNAUTHORIZED)
+
+
+# ---------------------------------------------------------------
+# ViewAPIAccountTokenVerify
+# ---------------------------------------------------------------
+class ViewAPIAccountTokenVerify(TokenVerifyView):
 
     # ---------------------------------------------------------------------------
     # post

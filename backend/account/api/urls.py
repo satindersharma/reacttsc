@@ -1,6 +1,6 @@
 from django.urls import path, include
 from account.api.views import (ViewAPIAccountLogin, ViewAPIAccountSignUp, ViewAPIAccountLogout,
-                               ViewAPIAccountTokenObtainPair, ViewAPIAccountTokenRefresh)
+                               ViewAPIAccountTokenObtainPair, ViewAPIAccountTokenRefresh, ViewAPIAccountTokenVerify)
 
 
 urlpatterns = [
@@ -8,6 +8,7 @@ urlpatterns = [
          ViewAPIAccountLogin.as_view(),
          name='login'
          ),
+         
     path('signup/',
          ViewAPIAccountSignUp.as_view(),
          name='signup'
@@ -18,7 +19,19 @@ urlpatterns = [
          name='logout'
          ),
 
-    path('token/', ViewAPIAccountTokenObtainPair.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', ViewAPIAccountTokenRefresh.as_view(), name='token_refresh'),
+    path('token/',
+         ViewAPIAccountTokenObtainPair.as_view(),
+         name='token_obtain_pair'
+         ),
+
+    path('token/refresh/',
+         ViewAPIAccountTokenRefresh.as_view(),
+         name='token_refresh'
+         ),
+
+    path('token/verify/',
+         ViewAPIAccountTokenVerify.as_view(),
+         name='token_verify'
+         ),
 
 ]
