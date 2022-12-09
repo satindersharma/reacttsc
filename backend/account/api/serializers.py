@@ -60,10 +60,10 @@ class SerializerAPIAccountSignUp(serializers.Serializer):
     Register as User
     """
 
-    email = serializers.EmailField(max_length=255)
-    password = serializers.CharField(max_length=60)
     first_name = serializers.CharField(max_length=60)
     last_name = serializers.CharField(max_length=60)
+    email = serializers.EmailField(max_length=255)
+    password = serializers.CharField(max_length=60)
     phone_number = serializers.CharField(max_length=30)
     country = serializers.CharField(max_length=30, required=False)
     city = serializers.CharField(max_length=30, required=False)

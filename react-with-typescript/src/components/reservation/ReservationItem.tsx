@@ -1,6 +1,6 @@
 import React from 'react'
 import {useDispatch} from 'react-redux'
-import {removeReservation} from '../../features/reservation/reservationSlice'
+import { removeReservation} from '../../features/reservation/reservationSlice'
 interface ReservationType {
     name:string,
     index:number

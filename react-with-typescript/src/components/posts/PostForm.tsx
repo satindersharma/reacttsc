@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import api from "../../utils/api";
 
 const PostForm = () => {
   const [values, setValues] = useState({
@@ -15,15 +17,12 @@ const PostForm = () => {
     e.preventDefault();
     // console.log(values);
 
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
+    api.post('/post/',values).then((res)=>{
+      console.log(res.data)
+      toast.success('post added')
+    }).catch((err)=>{
+      console.log(err.response)
     })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
   };
 
   return (

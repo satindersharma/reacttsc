@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from django.urls.base import reverse_lazy
+from corsheaders.defaults import default_headers   
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,6 +54,7 @@ AUTH_USER_MODEL = 'account.ModelAccountUser'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -141,6 +143,18 @@ USE_TZ = True
 LOGIN_URL = reverse_lazy("account:login")
 DEFAULT_LOGIN_REDIRECT_URL = reverse_lazy('account:dashboard')
 
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    # 'http://localhost:5173',
+    'http://127.0.0.1:3000',
+)
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'access-control-allow-origin',
+    'content-type',
+    'x-token-authentication',
+    'Access-Control-Allow-Origin',
+]
 
 # GEOIP_PATH = BASE_DIR / 'geofiles'
 # GEOIP_CITY = BASE_DIR / 'GeoLite2-City.mmdb'

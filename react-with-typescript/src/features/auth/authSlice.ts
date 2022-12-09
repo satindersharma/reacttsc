@@ -18,6 +18,19 @@ const initialState:AuthState = {
     users:[]
 }
 
+
+// First, create the thunk
+// export const fetchUsers:any = createAsyncThunk(
+//   'users/fetchUsers',
+//   async () => {
+//     const response = await api.get('/users')
+//     // console.log(response)
+//     return await response.data
+//   }
+// )
+
+
+
 // First, create the thunk
 export const fetchUsers:any = createAsyncThunk(
     'users/fetchUsers',
